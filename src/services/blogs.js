@@ -6,5 +6,19 @@ const getAll = () => {
   return request.then(response => response.data)
 }
 
+const postSingle = ( blog, token ) => {
+
+  const config = {
+    headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `bearer ${token}`
+  }
+}
+  
+  const request = axios.post(baseUrl, blog, config)
+  console.log('blog post request', baseUrl, blog, config)
+  return request.then(response => response.data)
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll }
+export default { getAll, postSingle }
