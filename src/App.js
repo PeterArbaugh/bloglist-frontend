@@ -9,7 +9,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  const [message, setMessage] = useState(null)
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
@@ -47,9 +47,9 @@ const App = () => {
       console.log('logged in as', user)
 
     } catch (error) {
-      setErrorMessage('Wrong credentials')
+      setMessage('Wrong credentials')
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
   }
@@ -76,12 +76,16 @@ const App = () => {
     try {
       const blog = await blogService.postSingle(blogToPost, token)
       console.log('posted', blog)
+      setMessage(`You posted ${title} by ${author}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
 
     } catch (error) {
-      setErrorMessage('Bad post')
+      setMessage('Bad post')
       console.log('error', error)
       setTimeout(() => {
-        setErrorMessage(null)
+        setMessage(null)
       }, 5000)
     }
 
@@ -92,7 +96,7 @@ const App = () => {
     return (
       <div>
         <h1>Login to application</h1>
-        <Notification message={errorMessage} />
+        <Notification message={message} />
         <form onSubmit={handleLogin}>
       <div>
         username
@@ -123,7 +127,7 @@ const App = () => {
     <div>
       <h1>blogs</h1>
 
-      <Notification message={errorMessage} />
+      <Notification message={message} />
 
       <p><strong>{user.name}</strong> is logged in.</p>
       <button onClick={handleLogout}>Logout</button>
