@@ -13,9 +13,6 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const blogFormRef = useRef()
 
   useEffect(() => {
@@ -63,32 +60,16 @@ const App = () => {
     window.location.reload()
   }
 
-  const handleBlogSubmit = async (event) => {
-    event.preventDefault()
-    
-    const blogToPost = {
-      title: title,
-      author: author,
-      url: url
-    }
-
-    console.log('posting', blogToPost);
-
-    const token = JSON.parse(window.localStorage.getItem('loggedBlogappUser')).token
-    console.log('token', token)
-
+  const createBlog = async (blogToPost, token) => {
     try {
       const blog = await blogService.postSingle(blogToPost, token)
       console.log('posted', blog)
-      setMessage(`You posted ${title} by ${author}`)
+      setMessage(`You posted ${blogToPost.title} by ${blogToPost.author}`)
       setTimeout(() => {
         setMessage(null)
       }, 5000)
 
       blogFormRef.current.toggleVisibility()
-      setTitle('')
-      setAuthor('')
-      setUrl('')
 
     } catch (error) {
       setMessage('Bad post')
@@ -125,15 +106,7 @@ const App = () => {
       <button onClick={handleLogout}>Logout</button>
 
       <Togglable buttonLabel='Add a blog' ref={blogFormRef}>
-        <BlogForm 
-            onSubmit={handleBlogSubmit} 
-            handleTitleChange={({ target }) => setTitle(target.value)}
-            handleAuthorChange={({ target }) => setAuthor(target.value)}
-            handleUrlChange={({ target }) => setUrl(target.value)}
-            titleValue={title}
-            authorValue={author}
-            urlValue={url}
-          />
+        <BlogForm createBlog={createBlog} />
       </Togglable>
 
       {blogs.map(blog =>
