@@ -80,6 +80,23 @@ const App = () => {
     }    
   }
 
+  const likeBlog = async (id, blog, token) => {
+    try {
+      const like = await blogService.likeSingle(id, blog, token)
+      console.log('liked post', like)
+      setMessage(`You liked ${blog.title}`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000);
+    } catch (error) {
+      setMessage('Bad post')
+      console.log('error', error)
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
+    }
+  }
+
   if (user === null) {
     return (
       <div>
@@ -110,7 +127,11 @@ const App = () => {
       </Togglable>
 
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog 
+          key={blog.id} 
+          blog={blog}
+          likeBlog={likeBlog} 
+          />
       )}
     </div>
   )
