@@ -98,6 +98,27 @@ const App = () => {
     }
   }
 
+  const deleteBlog = async (title, id, token) => {
+    if (window.confirm(`You are about to delete ${title}. Click OK to proceed.`)) {
+      try {
+      
+        const dBlog = await blogService.deleteSingle(id, token)
+        console.log(dBlog)
+        setMessage(`${title} was deleted.`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000);
+      } catch (error) {
+        setMessage('Delete failed')
+        console.log('error', error)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
+      }
+    }
+  }
+
+
   if (user === null) {
     return (
       <div>
@@ -131,7 +152,8 @@ const App = () => {
         <Blog 
           key={blog.id} 
           blog={blog}
-          likeBlog={likeBlog} 
+          likeBlog={likeBlog}
+          deleteBlog={deleteBlog}
           />
       )}
     </div>

@@ -1,6 +1,6 @@
 import Togglable from "./Togglable"
 
-const Blog = ({ blog, likeBlog }) => {
+const Blog = ({ blog, likeBlog, deleteBlog }) => {
   
   const addLike = () => {
     const blogToLike = {
@@ -15,6 +15,11 @@ const Blog = ({ blog, likeBlog }) => {
     likeBlog(blog.id, blogToLike, token)
   }
 
+  const removeBlog = () => {
+    const token = JSON.parse(window.localStorage.getItem('loggedBlogappUser')).token
+    deleteBlog( blog.title, blog.id, token)
+  }
+
   return (
   <div>
     {blog.title} {blog.author} 
@@ -24,6 +29,7 @@ const Blog = ({ blog, likeBlog }) => {
         <li>Likes: {blog.likes} <button onClick={addLike}>Like</button></li>
         <li>{blog.user[0].name}</li>
       </ul>
+      <button onClick={removeBlog}>Remove</button>
     </Togglable>
   </div>  
 )

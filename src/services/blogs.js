@@ -35,5 +35,20 @@ const likeSingle = ( id, blog, token ) => {
   return request.then(response => response.data)
 }
 
+const deleteSingle = (id, token) => {
+  const config = {
+    headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `bearer ${token}`
+    }
+  }
+
+  const blogUrl = baseUrl + '/' + id
+
+  const request = axios.delete(blogUrl, config)
+  console.log('delete request', request)
+  return request.then(response => response.data)
+}
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, postSingle, likeSingle }
+export default { getAll, postSingle, likeSingle, deleteSingle }
