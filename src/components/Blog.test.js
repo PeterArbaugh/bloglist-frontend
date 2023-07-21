@@ -55,3 +55,43 @@ describe('togglable content', () => {
         expect(likes).toBeDefined()
     })
 })
+
+test('2 clicks on like button', async () => {
+
+    const userObject = {
+        token: 'mock-token',
+        username: 'jest-test-user',
+        name: 'jest name'
+    }
+
+    window.localStorage.setItem('loggedBlogappUser', JSON.stringify(userObject))
+
+    const blog = {
+        title: 'Blog title for test',
+        user: '649a2020f0c7f5299853f508',
+        url: 'https://reactpatterns.com/',
+        likes: 7,
+        __v: 0,
+        author: 'Author for test'
+    }
+
+    const likeBlog = jest.fn()
+    const deleteBlog = jest.fn()
+
+    render(
+        <Blog
+            blog={blog}
+            likeBlog={likeBlog}
+            deleteBlog={deleteBlog}
+        />
+    )
+
+    const user = userEvent.default.setup()
+    const toggleButton = screen.getByText('View')
+    await user.click(toggleButton)
+
+    const likeButton = screen.getByText('Like')
+    await user.dblClick(likeButton)
+
+    expect(likeBlog).toHaveBeenCalledTimes(2)
+})

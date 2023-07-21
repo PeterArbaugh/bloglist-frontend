@@ -36,10 +36,14 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "resetMocks": false
+  },
   "proxy": "http://localhost:3003",
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
-    "eslint-plugin-jest": "^25.7.0"
+    "eslint-plugin-jest": "^25.7.0",
+    "jest-localstorage-mock": "^2.4.26"
   }
 }
