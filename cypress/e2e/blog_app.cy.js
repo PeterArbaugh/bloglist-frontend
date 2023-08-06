@@ -35,6 +35,22 @@ describe('Blog app', () => {
         })
     })
 
+    describe('when logged in', function() {
+        beforeEach(function () {
+            cy.login({ username: 'ctester', password: 'test_password' })
+        })
+
+        it('can create a blog', function() {
+            cy.contains('Add a blog').click()
+            cy.get('#title').type('Cypress test title')
+            cy.get('#author').type('Cypress test author')
+            cy.get('#url').type('Cypress test URL')
+            cy.get('#submit-blog').click()
+
+            cy.contains('Cypress test title')
+        })
+    })
+
 
 
 
