@@ -32,3 +32,24 @@ Cypress.Commands.add('login', ({ username, password }) => {
         cy.visit('http://localhost:3000')
     })
 })
+
+Cypress.Commands.add('addBlog', ({ blog }) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `bearer ${JSON.parse(localStorage.getItem('loggedBlogappUser')).token}`
+        }
+    }
+
+    // const blog = {
+    //     title: 'Cypress test blog',
+    //     author: 'Cypress test title',
+    //     url: 'Cypress test URL'
+    // }
+
+    cy.request('POST', 'http://localhost:3003/api/blogs', {
+        blog, config
+    }).then(() => {
+        cy.visit('http://localhost:3000')
+    })
+})
