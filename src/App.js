@@ -15,12 +15,16 @@ const App = () => {
     const [message, setMessage] = useState(null)
     const blogFormRef = useRef()
 
+
     useEffect(() => {
-        blogService.getAll().then((blogs) => {
-            const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
-            setBlogs( sortedBlogs )
-        })
+        if (user) {
+            blogService.getAll().then((blogs) => {
+                const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
+                setBlogs( sortedBlogs )
+            })
+        }
     }, [])
+
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
@@ -66,6 +70,7 @@ const App = () => {
             const blog = await blogService.postSingle(blogToPost, token)
             console.log('posted', blog)
             setMessage(`You posted ${blogToPost.title} by ${blogToPost.author}`)
+            setBlogs(blogs.concat(blog))
             setTimeout(() => {
                 setMessage(null)
             }, 5000)
