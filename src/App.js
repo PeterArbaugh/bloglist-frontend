@@ -20,7 +20,7 @@ const App = () => {
             const sortedBlogs = [...blogs].sort((a, b) => b.likes - a.likes)
             setBlogs( sortedBlogs )
         })
-    }, [blogs])
+    }, [])
 
     useEffect(() => {
         const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
